@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, User, Menu, X, UserCircle, LayoutDashboard, Package, Settings, LogOut } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, UserCircle, LayoutDashboard, Package, Settings, LogOut, LogIn } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface HeaderProps {
@@ -56,7 +56,11 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
     setIsMobileMenuOpen(false);
     onNavigate(page);
     if (sectionId) {
-      setTimeout(() => scrollToSection(sectionId), 100);
+      // Wait for page to render, then scroll to section
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setTimeout(() => scrollToSection(sectionId), 150);
+      }, 100);
     }
   };
 
@@ -81,7 +85,7 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
       {/* Main Header */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
-          {/* Right Side: Brand/Logo */}
+          {/* Right Side: Brand/Logo (RTL) */}
           <div className="flex items-center gap-4 order-1">
             <button 
               onClick={() => onNavigate('home')}
@@ -97,20 +101,8 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
             </button>
           </div>
 
-          {/* Center: Search Bar - Hidden on mobile */}
-          <div className="flex-1 max-w-2xl hidden md:block order-2">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="جستجوی محصولات..."
-                className="w-full px-4 py-3 pr-12 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
-              />
-              <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            </div>
-          </div>
-
-          {/* Left Side: Cart & User Icons */}
-          <div className="flex items-center gap-2 md:gap-4 order-3">
+          {/* Left Side: Cart & User Icons (RTL) */}
+          <div className="flex items-center gap-2 md:gap-4 order-2">
             {/* Hamburger Menu - Mobile Only */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -131,7 +123,7 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
             >
               <ShoppingCart className="w-5 h-5 md:w-6 md:h-6 text-foreground" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -left-1 bg-accent text-accent-foreground w-5 h-5 rounded-full flex items-center justify-center text-xs">
+                <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground w-5 h-5 rounded-full flex items-center justify-center text-xs">
                   {cartCount}
                 </span>
               )}
@@ -152,11 +144,41 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                 <div 
                   className="absolute right-0 mt-2 w-64 md:w-56 bg-white rounded-xl shadow-2xl border border-border overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-[60]"
                   dir="rtl"
-                  style={{ maxWidth: 'calc(100vw - 2rem)' }}
+                  style={{ maxWidth: 'calc(100vw - 2rem)', right: '0' }}
                 >
                   <div className="py-2">
-                    {/* Profile */}
+                    {/* Login Button - Show when not logged in */}
                     <button
+                      onClick={() => handleProfileItemClick('login')}
+                      className="w-full px-4 py-2.5 text-right hover:bg-primary/10 transition-colors flex items-center gap-3 text-primary font-medium flex-row-reverse"
+                    >
+                      <LogIn className="w-5 h-5" />
+                      <span>ورود به حساب کاربری</span>
+                    </button>
+
+                    {/* Sign Up Button */}
+                    <button
+                      onClick={() => handleProfileItemClick('signup')}
+                      className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground flex-row-reverse"
+                    >
+                      <UserCircle className="w-5 h-5 text-primary" />
+                      <span>ثبت‌نام</span>
+                    </button>
+
+                    {/* Admin Dashboard Button */}
+                    <button
+                      onClick={() => handleProfileItemClick('admin-dashboard')}
+                      className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground flex-row-reverse"
+                    >
+                      <LayoutDashboard className="w-5 h-5 text-primary" />
+                      <span>داشبورد مدیریت</span>
+                    </button>
+
+                    {/* Divider */}
+                    <div className="my-2 border-t border-border"></div>
+
+                    {/* Profile - Show when logged in (commented for now, uncomment when auth is implemented) */}
+                    {/* <button
                       onClick={() => handleProfileItemClick('user-account')}
                       className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground"
                     >
@@ -164,7 +186,6 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                       <span>پروفایل کاربری</span>
                     </button>
 
-                    {/* Admin Dashboard */}
                     <button
                       onClick={() => handleProfileItemClick('admin-dashboard')}
                       className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground"
@@ -173,7 +194,6 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                       <span>داشبورد مدیریت</span>
                     </button>
 
-                    {/* Orders */}
                     <button
                       onClick={() => handleProfileItemClick('order-confirmation')}
                       className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground"
@@ -182,7 +202,6 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                       <span>سفارش‌ها</span>
                     </button>
 
-                    {/* Settings */}
                     <button
                       onClick={() => handleProfileItemClick('user-account')}
                       className="w-full px-4 py-2.5 text-right hover:bg-muted transition-colors flex items-center gap-3 text-foreground"
@@ -191,33 +210,19 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                       <span>تنظیمات</span>
                     </button>
 
-                    {/* Divider */}
                     <div className="my-2 border-t border-border"></div>
 
-                    {/* Logout */}
                     <button
                       onClick={() => handleProfileItemClick('home')}
                       className="w-full px-4 py-2.5 text-right hover:bg-destructive/10 transition-colors flex items-center gap-3 text-destructive"
                     >
                       <LogOut className="w-5 h-5" />
                       <span>خروج از حساب</span>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Mobile Search - Visible on mobile only */}
-        <div className="mt-4 md:hidden">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="جستجوی محصولات..."
-              className="w-full px-4 py-2.5 pr-10 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
-            />
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           </div>
         </div>
       </div>
@@ -254,7 +259,11 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
               <button 
                 onClick={() => {
                   onNavigate('home');
-                  setTimeout(() => scrollToSection('special-offers'), 100);
+                  // Wait for page to render, then scroll to section
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                    setTimeout(() => scrollToSection('special-offers'), 150);
+                  }, 100);
                 }}
                 className="text-foreground hover:text-primary transition-colors"
               >
@@ -362,6 +371,28 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
               {/* User Info Section */}
               <div className="space-y-2">
                 <button
+                  onClick={() => handleMobileNavClick('login')}
+                  className="w-full text-right px-4 py-3 bg-primary text-white hover:bg-primary/90 rounded-lg transition-colors flex items-center gap-3 flex-row-reverse"
+                >
+                  <LogIn className="w-5 h-5" />
+                  <span>ورود به حساب کاربری</span>
+                </button>
+                <button
+                  onClick={() => handleMobileNavClick('signup')}
+                  className="w-full text-right px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-3 flex-row-reverse"
+                >
+                  <UserCircle className="w-5 h-5 text-primary" />
+                  <span>ثبت‌نام</span>
+                </button>
+                <button
+                  onClick={() => handleMobileNavClick('admin-dashboard')}
+                  className="w-full text-right px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-3 flex-row-reverse"
+                >
+                  <LayoutDashboard className="w-5 h-5 text-primary" />
+                  <span>داشبورد مدیریت</span>
+                </button>
+                {/* Show when logged in (commented for now) */}
+                {/* <button
                   onClick={() => handleMobileNavClick('user-account')}
                   className="w-full text-right px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-3"
                 >
@@ -381,7 +412,7 @@ export function Header({ onNavigate, cartCount = 0 }: HeaderProps) {
                 >
                   <Package className="w-5 h-5 text-primary" />
                   <span>سفارش‌ها</span>
-                </button>
+                </button> */}
               </div>
 
               {/* Divider */}

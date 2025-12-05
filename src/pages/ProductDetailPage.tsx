@@ -71,24 +71,24 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
       <main className="py-8">
         <div className="container mx-auto px-4">
           {/* Back Button & Breadcrumb */}
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-between" dir="rtl">
             <div></div>
             <div className="flex items-center gap-4">
               <Breadcrumb items={breadcrumbItems} />
-              <a
-                href="/"
+              <button
+                onClick={() => onNavigate('home')}
                 className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
               >
                 <span>بازگشت</span>
-                <ArrowRight className="w-5 h-5" />
-              </a>
+                <ArrowRight className="w-5 h-5 rotate-180" />
+              </button>
             </div>
           </div>
 
           {/* Product Detail Grid */}
-          <div className="grid lg:grid-cols-2 gap-12 mb-16">
+          <div className="grid lg:grid-cols-2 gap-12 mb-16" dir="rtl">
             {/* RIGHT: Product Info */}
-            <div className="order-1 lg:order-1 space-y-6">
+            <div className="order-1 lg:order-1 space-y-6" dir="rtl">
               {/* Product Title & Category */}
               <div className="text-right">
                 <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm mb-3">
@@ -98,7 +98,6 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
                   ست سوزن و نخ ۵۰ عددی حرفه‌ای
                 </h1>
                 <div className="flex items-center gap-3 justify-end">
-                  <span className="text-sm text-muted-foreground">(۱۲۴ نظر)</span>
                   <div className="flex gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <Star
@@ -107,18 +106,19 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
                       />
                     ))}
                   </div>
+                  <span className="text-sm text-muted-foreground">(۱۲۴ نظر)</span>
                 </div>
               </div>
 
               {/* Price */}
               <div className="border-t border-b border-border py-6">
                 <div className="flex items-center gap-4 justify-end">
+                  <div className="bg-destructive text-white px-4 py-2 rounded-lg">
+                    ۱۷٪ تخفیف
+                  </div>
                   <div className="text-right">
                     <div className="text-3xl text-accent">۱۲۵,۰۰۰ تومان</div>
                     <div className="text-lg text-muted-foreground line-through">۱۵۰,۰۰۰ تومان</div>
-                  </div>
-                  <div className="bg-destructive text-white px-4 py-2 rounded-lg">
-                    ۱۷٪ تخفیف
                   </div>
                 </div>
               </div>
@@ -137,23 +137,23 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
               <div className="text-right space-y-3">
                 <h3 className="text-lg text-foreground">مشخصات فنی</h3>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-end gap-3 py-2 border-b border-border">
+                  <div className="flex items-center gap-3 py-2 border-b border-border" dir="rtl">
                     <span className="text-foreground">DMC</span>
                     <span className="text-muted-foreground">برند:</span>
                   </div>
-                  <div className="flex items-center justify-end gap-3 py-2 border-b border-border">
+                  <div className="flex items-center gap-3 py-2 border-b border-border" dir="rtl">
                     <span className="text-foreground">فولاد ضد زنگ و نخ پلی‌استر</span>
                     <span className="text-muted-foreground">مواد اولیه:</span>
                   </div>
-                  <div className="flex items-center justify-end gap-3 py-2 border-b border-border">
+                  <div className="flex items-center gap-3 py-2 border-b border-border" dir="rtl">
                     <span className="text-foreground">۱۵ × ۱۰ × ۳ سانتی‌متر</span>
                     <span className="text-muted-foreground">ابعاد بسته‌بندی:</span>
                   </div>
-                  <div className="flex items-center justify-end gap-3 py-2 border-b border-border">
+                  <div className="flex items-center gap-3 py-2 border-b border-border" dir="rtl">
                     <span className="text-foreground">۱۲۰ گرم</span>
                     <span className="text-muted-foreground">وزن:</span>
                   </div>
-                  <div className="flex items-center justify-end gap-3 py-2 border-b border-border">
+                  <div className="flex items-center gap-3 py-2 border-b border-border" dir="rtl">
                     <span className="text-foreground">۱ سال</span>
                     <span className="text-muted-foreground">گارانتی:</span>
                   </div>
@@ -161,10 +161,10 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
               </div>
 
               {/* Quantity & Actions */}
-              <div className="space-y-4 pt-4">
+              <div className="space-y-4 pt-4" dir="rtl">
                 <div className="flex items-center gap-3 justify-end">
-                  <QuantitySelector />
                   <span className="text-foreground">تعداد:</span>
+                  <QuantitySelector />
                 </div>
 
                 <div className="flex gap-3">

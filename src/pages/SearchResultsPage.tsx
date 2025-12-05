@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -7,11 +7,20 @@ import { EmptyState } from '../components/EmptyState';
 
 interface SearchResultsPageProps {
   onNavigate: (page: string) => void;
+  searchQuery?: string;
 }
 
-export function SearchResultsPage({ onNavigate }: SearchResultsPageProps) {
-  const [searchQuery, setSearchQuery] = useState('چکش آهنگری قدیمی');
+export function SearchResultsPage({ onNavigate, searchQuery: initialQuery = '' }: SearchResultsPageProps) {
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [showResults, setShowResults] = useState(false);
+
+  // Update search query when prop changes
+  useEffect(() => {
+    if (initialQuery) {
+      setSearchQuery(initialQuery);
+      setShowResults(true); // Show results if query is provided
+    }
+  }, [initialQuery]);
 
   // Sample products for when results exist
   const products = [

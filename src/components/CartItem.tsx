@@ -48,18 +48,18 @@ export function CartItem({
   return (
     <>
       {/* Desktop/Tablet Table Layout (768px+) */}
-      <div className="hidden md:block bg-white border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+      <div className="hidden md:block bg-white border border-border rounded-lg p-4 hover:shadow-md transition-shadow" dir="rtl">
         <div className="grid grid-cols-[auto_auto_auto_1fr_auto] gap-4 items-center">
           {/* Product Info */}
           <div className="flex items-center gap-4">
+            <div className="text-right flex-1">
+              <h3 className="text-foreground">{name}</h3>
+            </div>
             <ImageWithFallback
               src={image}
               alt={name}
-              className="w-20 h-20 object-cover rounded-lg border border-border"
+              className="w-20 h-20 object-cover rounded-lg border border-border flex-shrink-0"
             />
-            <div className="text-right">
-              <h3 className="text-foreground">{name}</h3>
-            </div>
           </div>
 
           {/* Price */}
@@ -68,20 +68,22 @@ export function CartItem({
           </div>
 
           {/* Quantity Controls */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleIncrease}
-              className="w-8 h-8 flex items-center justify-center bg-muted border border-border rounded-lg hover:bg-border transition-colors"
-            >
-              <Plus className="w-4 h-4 text-foreground" />
-            </button>
-            <span className="w-12 text-center text-foreground">{quantity}</span>
+          <div className="flex items-center gap-2 justify-center">
             <button
               onClick={handleDecrease}
               disabled={quantity <= 1}
               className="w-8 h-8 flex items-center justify-center bg-muted border border-border rounded-lg hover:bg-border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="کاهش تعداد"
             >
               <Minus className="w-4 h-4 text-foreground" />
+            </button>
+            <span className="w-12 text-center text-foreground">{quantity}</span>
+            <button
+              onClick={handleIncrease}
+              className="w-8 h-8 flex items-center justify-center bg-muted border border-border rounded-lg hover:bg-border transition-colors"
+              aria-label="افزایش تعداد"
+            >
+              <Plus className="w-4 h-4 text-foreground" />
             </button>
           </div>
 

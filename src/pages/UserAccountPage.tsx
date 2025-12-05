@@ -38,14 +38,14 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Header onNavigate={onNavigate} cartCount={3} />
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid md:grid-cols-4 gap-6">
           {/* Sidebar - RIGHT */}
           <div className="md:col-span-1 order-1">
-            <div className="bg-white rounded-lg border border-border p-6 sticky top-24">
+            <div className="bg-white rounded-lg border border-border p-6 md:sticky md:top-24">
               {/* User Info */}
               <div className="text-center mb-6 pb-6 border-b border-border">
                 <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -59,54 +59,54 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
               <nav className="space-y-2">
                 <button
                   onClick={() => setActiveTab('orders')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-end ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-start ${
                     activeTab === 'orders'
                       ? 'bg-primary text-white'
                       : 'text-foreground hover:bg-muted'
                   }`}
                 >
-                  <span>سفارشات من</span>
                   <Package className="w-5 h-5" />
+                  <span>سفارشات من</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('favorites')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-end ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-start ${
                     activeTab === 'favorites'
                       ? 'bg-primary text-white'
                       : 'text-foreground hover:bg-muted'
                   }`}
                 >
-                  <span>علاقه‌مندی‌ها</span>
                   <Heart className="w-5 h-5" />
+                  <span>علاقه‌مندی‌ها</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('addresses')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-end ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-start ${
                     activeTab === 'addresses'
                       ? 'bg-primary text-white'
                       : 'text-foreground hover:bg-muted'
                   }`}
                 >
-                  <span>آدرس‌های من</span>
                   <MapPin className="w-5 h-5" />
+                  <span>آدرس‌های من</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('profile')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-end ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right transition-colors justify-start ${
                     activeTab === 'profile'
                       ? 'bg-primary text-white'
                       : 'text-foreground hover:bg-muted'
                   }`}
                 >
-                  <span>تنظیمات حساب</span>
                   <Settings className="w-5 h-5" />
+                  <span>تنظیمات حساب</span>
                 </button>
                 <button
                   onClick={() => onNavigate('home')}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right text-red-600 hover:bg-red-50 transition-colors justify-end"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-right text-red-600 hover:bg-red-50 transition-colors justify-start"
                 >
-                  <span>خروج از حساب</span>
                   <LogOut className="w-5 h-5" />
+                  <span>خروج از حساب</span>
                 </button>
               </nav>
             </div>
@@ -118,11 +118,11 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
             {activeTab === 'orders' && (
               <div className="space-y-6">
                 <div className="bg-white rounded-lg border border-border p-6">
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                     <h2 className="text-2xl text-foreground">سفارشات من</h2>
                     <button 
                       onClick={() => onNavigate('category')}
-                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap"
                     >
                       خرید جدید
                     </button>
@@ -134,9 +134,9 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                         key={order.id}
                         className="border border-border rounded-lg p-4 hover:shadow-md transition-shadow"
                       >
-                        <div className="flex items-center justify-between mb-3">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-3">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                               <ShoppingBag className="w-6 h-6 text-primary" />
                             </div>
                             <div>
@@ -144,7 +144,7 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                               <p className="text-sm text-muted-foreground">{order.date}</p>
                             </div>
                           </div>
-                          <div className="text-left">
+                          <div className="text-right">
                             <p className={`mb-1 ${order.statusColor}`}>{order.status}</p>
                             <p className="text-foreground">{order.total}</p>
                           </div>
@@ -155,7 +155,7 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                             onClick={() => onNavigate('order-confirmation')}
                             className="text-primary hover:text-primary/80 text-sm"
                           >
-                            مشاهده جزئیات ←
+                            مشاهده جزئیات →
                           </button>
                         </div>
                       </div>
@@ -187,19 +187,19 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
             {/* Addresses Tab */}
             {activeTab === 'addresses' && (
               <div className="bg-white rounded-lg border border-border p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                   <h2 className="text-2xl text-foreground">آدرس‌های من</h2>
-                  <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                  <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap">
                     افزودن آدرس جدید
                   </button>
                 </div>
                 
                 <div className="space-y-4">
                   <div className="border border-border rounded-lg p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-primary mt-1" />
-                        <div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-start justify-between gap-3 mb-3">
+                      <div className="flex items-start gap-3 flex-1">
+                        <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                        <div className="min-w-0">
                           <h3 className="text-foreground mb-2">آدرس منزل</h3>
                           <p className="text-sm text-muted-foreground leading-relaxed">
                             تهران، خیابان ولیعصر، کوچه ۱۵، پلاک ۲۳، طبقه ۳
@@ -209,7 +209,7 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full">
+                      <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap flex-shrink-0">
                         پیش‌فرض
                       </span>
                     </div>
@@ -239,7 +239,8 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                       <input
                         type="text"
                         defaultValue="علی"
-                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                        dir="rtl"
                       />
                     </div>
                     <div>
@@ -247,7 +248,8 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                       <input
                         type="text"
                         defaultValue="احمدی"
-                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                        dir="rtl"
                       />
                     </div>
                   </div>
@@ -258,6 +260,7 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                       type="email"
                       defaultValue="ali.ahmadi@example.com"
                       className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                      dir="ltr"
                     />
                   </div>
 
@@ -266,7 +269,8 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                     <input
                       type="tel"
                       defaultValue="۰۹۱۲۳۴۵۶۷۸۹"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                      dir="rtl"
                     />
                   </div>
 
@@ -277,27 +281,30 @@ export function UserAccountPage({ onNavigate }: UserAccountPageProps) {
                         <label className="block text-foreground mb-2">رمز عبور فعلی</label>
                         <input
                           type="password"
-                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                          dir="rtl"
                         />
                       </div>
                       <div>
                         <label className="block text-foreground mb-2">رمز عبور جدید</label>
                         <input
                           type="password"
-                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                          dir="rtl"
                         />
                       </div>
                       <div>
                         <label className="block text-foreground mb-2">تکرار رمز عبور جدید</label>
                         <input
                           type="password"
-                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                          className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-right"
+                          dir="rtl"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <button className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
                       ذخیره تغییرات
                     </button>

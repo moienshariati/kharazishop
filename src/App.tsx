@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Search } from 'lucide-react';
 import { Header } from './components/Header';
 import { HeroEnhanced } from './components/HeroEnhanced';
 import { CategoryBanner } from './components/CategoryBanner';
@@ -20,6 +21,9 @@ import { NotFoundPage } from './pages/error/NotFoundPage';
 import { ServerErrorPage } from './pages/error/ServerErrorPage';
 import { PaymentFailedPage } from './pages/error/PaymentFailedPage';
 import { NetworkErrorPage } from './pages/error/NetworkErrorPage';
+import { LoginPage } from './pages/LoginPage';
+import { SignUpPage } from './pages/SignUpPage';
+import { SearchResultsPage } from './pages/SearchResultsPage';
 
 type PageView = 
   | 'home' 
@@ -32,6 +36,9 @@ type PageView =
   | 'admin-dashboard'
   | 'about'
   | 'contact'
+  | 'login'
+  | 'signup'
+  | 'search-results'
   | 'error-404'
   | 'error-500'
   | 'error-payment'
@@ -39,6 +46,12 @@ type PageView =
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageView>('home');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentPage]);
 
   // Demo navigation - you can change this to test different pages
   // Mock product data
@@ -208,6 +221,18 @@ export default function App() {
     return <ContactPage onNavigate={setCurrentPage} />;
   }
 
+  if (currentPage === 'login') {
+    return <LoginPage onNavigate={setCurrentPage} />;
+  }
+
+  if (currentPage === 'signup') {
+    return <SignUpPage onNavigate={setCurrentPage} />;
+  }
+
+  if (currentPage === 'search-results') {
+    return <SearchResultsPage onNavigate={setCurrentPage} searchQuery={searchQuery} />;
+  }
+
   if (currentPage === 'error-404') {
     return <NotFoundPage onNavigate={setCurrentPage} />;
   }
@@ -225,6 +250,13 @@ export default function App() {
   }
 
   // Default: Home page
+  const handleSearch = (query: string) => {
+    if (query.trim()) {
+      setSearchQuery(query.trim());
+      setCurrentPage('search-results');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background relative" dir="rtl">
       <BackgroundPattern />
@@ -232,6 +264,36 @@ export default function App() {
       <Header onNavigate={setCurrentPage} cartCount={3} />
       <main className="relative overflow-hidden z-10">
         <HeroEnhanced onNavigate={setCurrentPage} />
+        
+        {/* Search Bar Section */}
+        <section className="relative z-20 bg-background container mx-auto px-4 py-8 md:py-12 -mt-8 md:-mt-12">
+          <div className="max-w-3xl mx-auto">
+            <div className="relative bg-white rounded-lg shadow-lg p-2 border border-border">
+              <Search className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-muted-foreground z-10 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="جستجوی محصولات..."
+                className="w-full pr-14 pl-32 py-4 md:py-5 bg-transparent border-none rounded-lg text-right focus:outline-none text-base md:text-lg"
+                dir="rtl"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(e.currentTarget.value);
+                  }
+                }}
+              />
+              <button
+                onClick={(e) => {
+                  const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                  handleSearch(input.value);
+                }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 px-6 py-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm md:text-base font-medium"
+              >
+                جستجو
+              </button>
+            </div>
+          </div>
+        </section>
+
         <CategoryBanner onNavigate={setCurrentPage} />
         <ProductSection 
           title="محصولات پرفروش" 

@@ -89,9 +89,9 @@ export function CartPage({ onNavigate }: CartPageProps) {
             </button>
           </div>
 
-          <div className="grid lg:grid-cols-[380px_1fr] gap-6 lg:gap-8">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-6 lg:gap-8" dir="rtl">
             {/* Cart Items - RIGHT side in RTL */}
-            <div className="order-2 lg:order-2 space-y-3 md:space-y-4">
+            <div className="order-1 lg:order-1 space-y-3 md:space-y-4">
               {/* Table Headers - Desktop Only */}
               <div className="hidden md:grid grid-cols-[auto_auto_auto_1fr_auto] gap-4 px-4 py-3 bg-muted rounded-lg" dir="rtl">
                 <div className="text-sm text-muted-foreground text-right">محصول</div>
@@ -128,7 +128,7 @@ export function CartPage({ onNavigate }: CartPageProps) {
             </div>
 
             {/* Order Summary - LEFT side in RTL */}
-            <div className="order-1 lg:order-1">
+            <div className="order-2 lg:order-2">
               <div className="bg-white border border-border rounded-lg p-4 md:p-6 lg:sticky lg:top-24" dir="rtl">
                 <h3 className="text-lg md:text-xl text-foreground text-right mb-4 md:mb-6">
                   خلاصه سفارش
@@ -139,21 +139,21 @@ export function CartPage({ onNavigate }: CartPageProps) {
                     <span className="text-foreground text-sm md:text-base">
                       {subtotal.toLocaleString('fa-IR')} تومان
                     </span>
-                    <span className="text-muted-foreground text-sm md:text-base">جمع کل:</span>
+                    <span className="text-muted-foreground text-sm md:text-base text-right">جمع کل:</span>
                   </div>
 
                   <div className="flex items-center justify-between py-2 md:py-3 border-b border-border">
                     <span className="text-foreground text-sm md:text-base">
                       {shippingCost.toLocaleString('fa-IR')} تومان
                     </span>
-                    <span className="text-muted-foreground text-sm md:text-base">هزینه ارسال:</span>
+                    <span className="text-muted-foreground text-sm md:text-base text-right">هزینه ارسال:</span>
                   </div>
 
                   <div className="flex items-center justify-between py-2 md:py-3">
                     <span className="text-lg md:text-xl text-accent">
                       {total.toLocaleString('fa-IR')} تومان
                     </span>
-                    <span className="text-base md:text-lg text-foreground">مبلغ قابل پرداخت:</span>
+                    <span className="text-base md:text-lg text-foreground text-right">مبلغ قابل پرداخت:</span>
                   </div>
                 </div>
 

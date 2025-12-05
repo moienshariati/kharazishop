@@ -40,13 +40,14 @@ export function QuantitySelector({
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3" dir="rtl">
       <button
-        onClick={handleDecrease}
-        disabled={quantity <= min}
+        onClick={handleIncrease}
+        disabled={quantity >= max}
         className="w-10 h-10 flex items-center justify-center bg-muted border border-border rounded-lg hover:bg-border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="افزایش تعداد"
       >
-        <Minus className="w-4 h-4 text-foreground" />
+        <Plus className="w-4 h-4 text-foreground" />
       </button>
 
       <input
@@ -56,14 +57,16 @@ export function QuantitySelector({
         min={min}
         max={max}
         className="w-16 h-10 text-center bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        dir="ltr"
       />
 
       <button
-        onClick={handleIncrease}
-        disabled={quantity >= max}
+        onClick={handleDecrease}
+        disabled={quantity <= min}
         className="w-10 h-10 flex items-center justify-center bg-muted border border-border rounded-lg hover:bg-border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="کاهش تعداد"
       >
-        <Plus className="w-4 h-4 text-foreground" />
+        <Minus className="w-4 h-4 text-foreground" />
       </button>
     </div>
   );

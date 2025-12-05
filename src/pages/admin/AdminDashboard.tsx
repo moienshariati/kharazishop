@@ -161,6 +161,68 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     );
   }
 
+  if (activeMenu === 'sales') {
+    return (
+      <div className="flex min-h-screen bg-background" dir="rtl">
+        <AdminSidebar 
+          activeMenu={activeMenu} 
+          onMenuChange={setActiveMenu} 
+          onNavigate={onNavigate}
+          isMobileMenuOpen={isMobileMenuOpen}
+          onCloseMobileMenu={() => setIsMobileMenuOpen(false)}
+        />
+        <div className="flex-1 flex flex-col min-w-0">
+          <AdminTopBar 
+            onNavigate={onNavigate}
+            onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          />
+          <main className="flex-1 p-4 md:p-6 lg:p-8">
+            <div className="mb-6 md:mb-8 text-right">
+              <h1 className="text-2xl md:text-3xl text-foreground mb-2">گزارش فروش</h1>
+              <p className="text-sm md:text-base text-muted-foreground">گزارشات و آمار فروش</p>
+            </div>
+            <div className="bg-white border border-border rounded-lg p-4 md:p-6">
+              <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+                <p className="text-muted-foreground">گزارش فروش (در حال توسعه)</p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeMenu === 'settings') {
+    return (
+      <div className="flex min-h-screen bg-background" dir="rtl">
+        <AdminSidebar 
+          activeMenu={activeMenu} 
+          onMenuChange={setActiveMenu} 
+          onNavigate={onNavigate}
+          isMobileMenuOpen={isMobileMenuOpen}
+          onCloseMobileMenu={() => setIsMobileMenuOpen(false)}
+        />
+        <div className="flex-1 flex flex-col min-w-0">
+          <AdminTopBar 
+            onNavigate={onNavigate}
+            onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          />
+          <main className="flex-1 p-4 md:p-6 lg:p-8">
+            <div className="mb-6 md:mb-8 text-right">
+              <h1 className="text-2xl md:text-3xl text-foreground mb-2">تنظیمات</h1>
+              <p className="text-sm md:text-base text-muted-foreground">تنظیمات سیستم و فروشگاه</p>
+            </div>
+            <div className="bg-white border border-border rounded-lg p-4 md:p-6">
+              <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+                <p className="text-muted-foreground">تنظیمات (در حال توسعه)</p>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   // Default: Dashboard view
   return (
     <div className="flex min-h-screen bg-background" dir="rtl">

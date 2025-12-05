@@ -47,7 +47,14 @@ export function ProductCard({
             <span className="bg-white text-foreground px-3 md:px-4 py-2 rounded-lg text-sm md:text-base">ناموجود</span>
           </div>
         )}
-        <button className="absolute bottom-2 md:bottom-3 right-2 md:right-3 bg-white p-2 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary hover:text-white">
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onNavigate?.('cart');
+          }}
+          className="absolute bottom-2 md:bottom-3 right-2 md:right-3 bg-white p-2 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary hover:text-white"
+          aria-label="افزودن به سبد خرید"
+        >
           <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
         </button>
       </div>
@@ -74,11 +81,8 @@ export function ProductCard({
         </div>
 
         {/* Price */}
-        <div className="flex flex-col sm:flex-row items-end sm:items-center justify-between gap-2">
-          <button className="w-full sm:w-auto px-3 md:px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-xs md:text-sm whitespace-nowrap">
-            افزودن به سبد
-          </button>
-          <div className="text-right w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2" dir="rtl">
+          <div className="text-right w-full sm:w-auto order-2 sm:order-2">
             <div className="text-lg md:text-xl text-accent">{price}</div>
             {originalPrice && (
               <div className="text-xs md:text-sm text-muted-foreground line-through">
@@ -86,6 +90,15 @@ export function ProductCard({
               </div>
             )}
           </div>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onNavigate?.('cart');
+            }}
+            className="w-full sm:w-auto px-3 md:px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-xs md:text-sm whitespace-nowrap order-1 sm:order-1"
+          >
+            افزودن به سبد
+          </button>
         </div>
       </div>
     </div>

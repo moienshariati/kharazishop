@@ -9,6 +9,8 @@ interface HeroEnhancedProps {
 export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
   const [scrollY, setScrollY] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const slides = [
     {
@@ -96,6 +98,32 @@ export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
+  };
+
+  // Swipe gesture handlers for mobile
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
   };
 
   // Calculate parallax offsets
@@ -205,7 +233,12 @@ export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
 
       {/* Main Content - Full Width Slider */}
       <div className="w-full h-full relative z-10">
-        <div className="relative w-full h-full min-h-[95vh] flex items-center">
+        <div 
+          className="relative w-full h-full min-h-[95vh] flex items-center"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {/* Slides */}
           {slides.map((slide, index) => (
             <div
@@ -230,7 +263,7 @@ export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
                 <div className="max-w-7xl mx-auto w-full">
                   <div className="grid md:grid-cols-2 gap-12 items-center">
                     {/* Text Content - Right Side (RTL) */}
-                    <div className="text-right space-y-6 md:space-y-8 order-2 md:order-1">
+                    <div className="text-right space-y-6 md:space-y-8 order-2 md:order-1 relative z-40">
                       <div className="inline-block px-5 py-2.5 bg-accent/20 text-white rounded-full text-sm backdrop-blur-md border border-accent/30">
                         {slide.badge}
                       </div>
@@ -248,8 +281,8 @@ export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
                           onClick={() => onNavigate(slide.ctaAction)}
                           className="px-8 py-3.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all hover:shadow-xl hover:scale-105 flex items-center gap-2"
                         >
-                          <ArrowLeft className="w-5 h-5" />
                           {slide.ctaText}
+                          <ArrowLeft className="w-5 h-5" />
                         </button>
                         <button className="px-8 py-3.5 bg-white/10 backdrop-blur-md border-2 border-white/50 text-white rounded-lg hover:bg-white/20 transition-all hover:shadow-lg">
                           تماس با ما
@@ -283,24 +316,24 @@ export function HeroEnhanced({ onNavigate }: HeroEnhancedProps) {
             </div>
           ))}
 
-          {/* Navigation Arrows - RTL positioned */}
+          {/* Navigation Arrows - RTL positioned - Hidden on mobile (swipe gesture is enough), visible on desktop */}
           <button
             onClick={prevSlide}
-            className="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 z-30 bg-white/10 backdrop-blur-md hover:bg-white/20 p-3 md:p-4 rounded-full border border-white/20 transition-all hover:scale-110 shadow-xl"
+            className="hidden md:flex absolute left-12 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md hover:bg-white/20 p-4 rounded-full border border-white/20 transition-all hover:scale-110 shadow-xl pointer-events-auto items-center justify-center"
             aria-label="اسلاید قبلی"
           >
-            <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 text-white" />
+            <ChevronLeft className="w-7 h-7 text-white" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30 bg-white/10 backdrop-blur-md hover:bg-white/20 p-3 md:p-4 rounded-full border border-white/20 transition-all hover:scale-110 shadow-xl"
+            className="hidden md:flex absolute right-12 top-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md hover:bg-white/20 p-4 rounded-full border border-white/20 transition-all hover:scale-110 shadow-xl pointer-events-auto items-center justify-center"
             aria-label="اسلاید بعدی"
           >
-            <ChevronRight className="w-6 h-6 md:w-7 md:h-7 text-white" />
+            <ChevronRight className="w-7 h-7 text-white" />
           </button>
 
           {/* Pagination Dots - Bottom Center */}
-          <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-30 flex gap-3">
+          <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-50 flex gap-3 pointer-events-auto">
             {slides.map((_, index) => (
               <button
                 key={index}
