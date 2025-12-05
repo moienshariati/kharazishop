@@ -1,4 +1,5 @@
 import { ArrowRight, ShoppingCart, Heart, Share2, Star, TruckIcon, Shield, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -11,6 +12,7 @@ interface ProductDetailPageProps {
 }
 
 export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
+  const [quantity, setQuantity] = useState(1);
   const breadcrumbItems = [
     { label: 'صفحه اصلی', href: '/' },
     { label: 'دسته‌بندی‌ها', href: '/categories' },
@@ -164,7 +166,10 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
               <div className="space-y-4 pt-4" dir="rtl">
                 <div className="flex items-center gap-3 justify-end">
                   <span className="text-foreground">تعداد:</span>
-                  <QuantitySelector />
+                  <QuantitySelector 
+                    initialValue={quantity}
+                    onChange={(value) => setQuantity(value)}
+                  />
                 </div>
 
                 <div className="flex gap-3">
@@ -172,11 +177,20 @@ export function ProductDetailPage({ onNavigate }: ProductDetailPageProps) {
                     <span>خرید فوری</span>
                   </button>
                   <button 
-                    onClick={() => onNavigate('cart')}
+                    onClick={() => {
+                      // Here you can add the product to cart with the selected quantity
+                      // For now, just navigate to cart page
+                      // In a real app, you would call an addToCart function with quantity
+                      console.log(`Adding ${quantity} items to cart`);
+                      onNavigate('cart');
+                    }}
                     className="flex-1 px-6 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
                   >
                     <ShoppingCart className="w-5 h-5" />
                     <span>افزودن به سبد خرید</span>
+                    {quantity > 1 && (
+                      <span className="bg-white/20 px-2 py-0.5 rounded text-sm">({quantity})</span>
+                    )}
                   </button>
                 </div>
 
